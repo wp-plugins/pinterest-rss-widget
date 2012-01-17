@@ -24,9 +24,9 @@ Note: This plugin is heavily based on the Image Feed Widget plugin created by Yo
 
 == Frequently Asked Questions ==
 
-= And how do I use the plugin in my theme? =
+= How do I use the plugin in my theme? =
 
-Anywhere in your theme templates, you can display a list of images coming from rss feeds. Just place the following code where you want the images to appear:
+Anywhere in your theme templates, you can display the list of latest Pins thumbnails by placing the following code where you want them to appear:
 
 `<?php get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight); ?>`
 
