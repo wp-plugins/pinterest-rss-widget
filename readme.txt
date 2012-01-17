@@ -14,7 +14,7 @@ This plugin allows you to place a widget on your sidebar that fetches the most r
 
 You can also use this plugin from your theme templates, to display images lists anywhere else on your blog and you can easily give them a fixed size or a maximum size with CSS styling.
 
-Note: This plugin is heavily based on the Image Feed Widget plugin created by Yorik van Havre (http://wordpress.org/extend/plugins/image-feed-widget/)
+Note: This plugin is heavily based on the Image Feed Widget plugin created by Yorik van Havre (http://wordpress.org/extend/plugins/image-feed-widget/). It also utilizes the timthumb PHP script for image resizing (http://code.google.com/p/timthumb/)
 
 == Installation ==
 
@@ -31,14 +31,15 @@ Anywhere in your theme templates, you can display a list of images coming from r
 `<?php get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight); ?>`
 
 Where:
-* $username is the Pinterest username you wish to display Pins from (mandatory)
-* $maxfeeds is the maximum number of Pins to display (optional, default = 90)
-* $divname is a name suffix for the list class. "myList" will become "pins-feed-myList" (optional)
-* $printtext must be 1 if you want the image title to be printed below the image (optional)
-* $target is "samewindow" or "newwindow", depending on where you want links to open (optional, default = samewindow)
-* $useenclosures is "yes" or "no" (optional, default = yes). Use this if you don't want to use the <enclosure> tag in the feed and force the script to find an image link in the feed item description.
-* $thumbwidth is a number that will set the width in pixels of the Pin's thumbnail (optional, default = 150)
-* $thumbheight is a number that will set the height in pixels of the Pin's thumbnail (optional, default = 150)
+
+* **username** is the Pinterest username you wish to display Pins from (mandatory)
+* **maxfeeds** is the maximum number of Pins to display (optional, default = 90)
+* **divname** is a name suffix for the list class. "myList" will become "pins-feed-myList" (optional)
+* **printtext** must be 1 if you want the image title to be printed below the image (optional)
+* **target** is "samewindow" or "newwindow", depending on where you want links to open (optional, default = samewindow)
+* **useenclosures** is "yes" or "no" (optional, default = yes). Use this if you don't want to use the <enclosure> tag in the feed and force the script to find an image link in the feed item description.
+* **thumbwidth** is a number that will set the width in pixels of the Pin's thumbnail (optional, default = 150)
+* **thumbheight** is a number that will set the height in pixels of the Pin's thumbnail (optional, default = 150)
 
 Example:
 
