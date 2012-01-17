@@ -4,13 +4,13 @@ Donate link: None! Keep your money for important things!
 Tags: Pinterest, rss, feed, widget
 Requires at least: 2.8.4
 Tested up to: 3.3.1
-Stable tag: trunk
+Stable tag: 1.2
 
 A widget to display thumbnails and titles of the latest Pinterest Pins from a specific user via their Pinterest RSS feed
 
 == Description ==
 
-This plugin allows you to place a widget on your sidebar that fetches the most recent contents of a Pinterest user's RSS feed and displays the corresponding thumbnail images. You can choose whether to show the title below the image, and you can set the height and width of the thumbnails to fit your theme.
+This plugin allows you to place a widget on your sidebar that fetches the most recent contents of a Pinterest user's RSS feed and displays the corresponding thumbnail images. You can choose whether to show the title below the image, and you can set the height and width of the thumbnails to fit your theme. You also have the option of showing the official "Follow Me On Pinterest" button below all your pins.
 
 You can also use this plugin from your theme templates, to display images lists anywhere else on your blog and you can easily give them a fixed size or a maximum size with CSS styling.
 
@@ -28,7 +28,7 @@ Note: This plugin is heavily based on the Image Feed Widget plugin created by Yo
 
 Anywhere in your theme templates, you can display the list of latest Pins thumbnails by placing the following code where you want them to appear:
 
-`<?php get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight); ?>`
+`<?php get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow); ?>`
 
 Where:
 
@@ -40,10 +40,11 @@ Where:
 * **useenclosures** is "yes" or "no" (optional, default = yes). Use this if you don't want to use the <enclosure> tag in the feed and force the script to find an image link in the feed item description.
 * **thumbwidth** is a number that will set the width in pixels of the Pin's thumbnail (optional, default = 150)
 * **thumbheight** is a number that will set the height in pixels of the Pin's thumbnail (optional, default = 150)
+* **showfollow** is "yes" or "no" (optional, default = yes). Use this if you want to show the "Follow Me On Pinterest" button below the thumbnails.
 
 Example:
 
-`<?php get_pins_feed_list('bkmacdaddy', 10, 'myList', 1, 'newwindow', 'yes', 125, 125); ?>` 
+`<?php get_pins_feed_list('bkmacdaddy', 10, 'myList', 1, 'newwindow', 'yes', 125, 125, 'yes'); ?>` 
 
 == Screenshots ==
 
@@ -51,6 +52,9 @@ Example:
 2. Widget on the front end with 9 Pins and titles displaying
 
 == Changelog ==
+
+= 1.2 =
+* Added "Follow Me On Pinterest" button
 
 = 1.1 =
 * Improved CSS styles for better universal use
@@ -60,4 +64,4 @@ Example:
 
 == Upgrade Notice ==
 
-= 1.1 =
+= 1.2 =
