@@ -38,7 +38,7 @@ function add_pinterest_rss_css() {
 	}
 }
 
-function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150') {
+function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='yes') {
 
                 // This is the main function of the plugin. It is used by the widget and can also be called from anywhere in your theme. See the readme file for example.
 
@@ -56,7 +56,7 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
                 $rss_items = $rss->get_items(0,$maxitems);
 
                 ?>
-
+				
                 <ul class="pins-feed-list"><?php
 		// Loop through each feed item and display each item as a hyperlink.
 		  foreach ( $rss_items as $item ) : ?>
@@ -96,9 +96,13 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
 		  <?php endforeach; ?>
           <div class="pinsClear"></div>
 		</ul>
-
-                <div style="clear:both;"></div>
-
+        <?php 
+			$pinterest_followButton = get_bloginfo('url') . '/wp-content/plugins/pinterest-rss-widget/follow-on-pinterest-button.png';
+			if ($showfollow == 'yes') { ?>
+            <a href="http://pinterest.com/<?php echo $username; ?>/" id="pins-feed-follow" target="_blank">
+                <img src="<?php echo $pinterest_followButton; ?>" width="156" height="26" alt="Follow Me on Pinterest" border="0" />
+            </a>
+		<?php } ?>
                 <?php
 }
 
@@ -121,6 +125,7 @@ class Pinterest_RSS_Widget extends WP_Widget {
     $target = empty($instance['target']) ? '&nbsp;' : $instance['target'];
     $displaytitle = empty($instance['displaytitle']) ? '&nbsp' : $instance['displaytitle'];
     $useenclosures = empty($instance['useenclosures']) ? '&nbsp;' : $instance['useenclosures'];
+    $showfollow = empty($instance['showfollow']) ? '&nbsp;' : $instance['showfollow'];
  
     if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 
@@ -130,9 +135,11 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
     if ( empty( $useenclosures ) ) { $useenclosures = 'yes'; };
 
+    if ( empty( $showfollow ) ) { $showfollow = 'yes'; };
+
     if ( !empty( $user_name ) ) {
 
-      get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_width); ?>
+      get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_width, $showfollow); ?>
 
                 <div style="clear:both;"></div>
 
@@ -151,12 +158,13 @@ class Pinterest_RSS_Widget extends WP_Widget {
     $instance['target'] = strip_tags($new_instance['target']);
     $instance['displaytitle'] = strip_tags($new_instance['displaytitle']);
     $instance['useenclosures'] = strip_tags($new_instance['useenclosures']);
+    $instance['showfollow'] = strip_tags($new_instance['showfollow']);
  
     return $instance;
   }
  
   function form($instance) {
-    $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'user_name' => '', 'maxnumber' => '', 'thumb_height' => '', 'thumb_width' => '', 'target' => '', 'displaytitle' => '', 'useenclosures' => '') );
+    $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'user_name' => '', 'maxnumber' => '', 'thumb_height' => '', 'thumb_width' => '', 'target' => '', 'displaytitle' => '', 'useenclosures' => '', 'showfollow' => '') );
     $title = strip_tags($instance['title']);
     $user_name = strip_tags($instance['user_name']);
     $maxnumber = strip_tags($instance['maxnumber']);
@@ -165,6 +173,7 @@ class Pinterest_RSS_Widget extends WP_Widget {
     $target = strip_tags($instance['target']);
     $displaytitle = strip_tags($instance['displaytitle']);
     $useenclosures = strip_tags($instance['useenclosures']);
+    $showfollow = strip_tags($instance['showfollow']);
 ?>
       <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
 								    
@@ -196,6 +205,18 @@ class Pinterest_RSS_Widget extends WP_Widget {
 	  echo 'Yes</option>';
   	  echo '<option ';
           if ( $instance['displaytitle'] == 'no' ) { echo 'selected '; }
+          echo 'value="no">';
+	  echo 'No</option>'; ?>
+      </select></label></p>
+      
+      <p><label for="<?php echo $this->get_field_id('showfollow'); ?>">Show "Follow Me On Pinterest" button <select id="<?php echo $this->get_field_id('showfollow'); ?>" name="<?php echo $this->get_field_name('showfollow'); ?>">
+        <?php 
+  	  echo '<option ';
+          if ( $instance['showfollow'] == 'yes' ) { echo 'selected '; }
+          echo 'value="yes">';
+	  echo 'Yes</option>';
+  	  echo '<option ';
+          if ( $instance['showfollow'] == 'no' ) { echo 'selected '; }
           echo 'value="no">';
 	  echo 'No</option>'; ?>
       </select></label></p>
