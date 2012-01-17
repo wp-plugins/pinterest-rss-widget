@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://wordpress.org/extend/plugins/pinterest-rss-widget/
 Description: Display up to 90 of your latest Pinterest Pins in your sidebar.
 Author: bkmacdaddy designs
-Version: 1.2.1
+Version: 1.2.2
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -66,20 +66,22 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
 					<?php if ($target == 'newwindow') { echo 'target="_BLANK" '; }; ?>
 		            title="<?php echo $item->get_title().' - Pinned on '.$item->get_date('M d, Y'); ?>">
 						
-						<?php if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
+						<?php 
+							$pinterest_timthumbUrl = plugins_url('timthumb.php', __FILE__);
+							if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
                                 $thumb = $thumb[0]['attribs']['']['url'];
-	                        	echo '<img src="'.get_bloginfo('url').'/wp-content/plugins/pinterest-rss-widget/timthumb.php?src='.$thumb.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+	                        	echo '<img src="'.$pinterest_timthumbUrl.'?src='.$thumb.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
                                 echo ' alt="'.$item->get_title().'"/>';
                              } else if ( $useenclosures == 'yes' && $enclosure = $item->get_enclosure() ) {
                                 $enclosure = $item->get_enclosures();
-								echo '<img src="'.get_bloginfo('url').'/wp-content/plugins/pinterest-rss-widget/timthumb.php?src='.$enclosure[0]->get_link().'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+								echo '<img src="'.$pinterest_timthumbUrl.'?src='.$enclosure[0]->get_link().'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
                                 echo ' alt="'.$item->get_title().'"/>';
                             }  else {
 								preg_match('/src="([^"]*)"/', $item->get_content(), $matches);
 								$src = $matches[1];
 								
                                 if ($matches) {
-                                  echo '<img src="'.get_bloginfo('url').'/wp-content/plugins/pinterest-rss-widget/timthumb.php?src='.$src.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+                                  echo '<img src="'.$pinterest_timthumbUrl.'?src='.$src.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
                                 echo ' alt="'.$item->get_title().'"/>';
                                 } else {
                                   echo "thumbnail not available";
@@ -97,7 +99,7 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
           <div class="pinsClear"></div>
 		</ul>
         <?php 
-			$pinterest_followButton = get_bloginfo('url') . '/wp-content/plugins/pinterest-rss-widget/follow-on-pinterest-button.png';
+			$pinterest_followButton = plugins_url('follow-on-pinterest-button.png', __FILE__);
 			if ($showfollow == 'yes') { ?>
             <a href="http://pinterest.com/<?php echo $username; ?>/" id="pins-feed-follow" target="_blank">
                 <img src="http://passets-cdn.pinterest.com/images/follow-on-pinterest-button.png" width="156" height="26" alt="Follow Me on Pinterest" border="0" />
