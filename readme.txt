@@ -4,7 +4,7 @@ Donate link: None! Keep your money for important things!
 Tags: Pinterest, rss, feed, widget
 Requires at least: 2.8.4
 Tested up to: 3.3.1
-Stable tag: 1.2
+Stable tag: trunk
 
 A widget to display thumbnails and titles of the latest Pinterest Pins from a specific user via their Pinterest RSS feed
 

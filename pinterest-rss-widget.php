@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Pinterest RSS Widget
-Plugin URI: http://bkmacdaddy.com/wordpress/plugins/pinterest-rss-widget/
+Plugin URI: http://wordpress.org/extend/plugins/pinterest-rss-widget/
 Description: Display up to 90 of your latest Pinterest Pins in your sidebar.
 Author: bkmacdaddy designs
 Version: 1.1
