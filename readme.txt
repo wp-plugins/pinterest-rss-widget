@@ -53,6 +53,9 @@ Example:
 
 == Changelog ==
 
+= 1.2.2 =
+* Fixed directory path errors on WP Multisite
+
 = 1.2.1 =
 * Corrected "Follow Me On Pinterest" button image errors
 
