@@ -1,8 +1,18 @@
-.pins-feed-item {
+ul.pins-feed-list {
+	list-style:none;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+li.pins-feed-item {
+	list-style:none;
+	list-style-type:none;
 	float:left;
 	font-size:12px;
 	line-height:14px;
 	margin:5px;
+	padding:0;
 	text-align:center;
 }
 

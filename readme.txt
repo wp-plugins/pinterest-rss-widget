@@ -52,9 +52,12 @@ Example:
 
 == Changelog ==
 
+= 1.1 =
+* Improved CSS styles for better universal use
+
 = 1.0 =
 * First version
 
 == Upgrade Notice ==
 
-= 1.0 =
+= 1.1 =
