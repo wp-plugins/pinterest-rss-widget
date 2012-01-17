@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Pinterest RSS Widget
-Plugin URI: http://bkmacdaddy.com/wordpress/plugins/pinterest-rss-widget/
+Plugin URI: http://wordpress.org/extend/plugins/pinterest-rss-widget/
 Description: Display up to 90 of your latest Pinterest Pins in your sidebar.
 Author: bkmacdaddy designs
-Version: 1.1
+Version: 1.2
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -100,7 +100,7 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
 			$pinterest_followButton = get_bloginfo('url') . '/wp-content/plugins/pinterest-rss-widget/follow-on-pinterest-button.png';
 			if ($showfollow == 'yes') { ?>
             <a href="http://pinterest.com/<?php echo $username; ?>/" id="pins-feed-follow" target="_blank">
-                <img src="<?php echo $pinterest_followButton; ?>" width="156" height="26" alt="Follow Me on Pinterest" border="0" />
+                <img src="http://passets-cdn.pinterest.com/images/follow-on-pinterest-button.png" width="156" height="26" alt="Follow Me on Pinterest" border="0" />
             </a>
 		<?php } ?>
                 <?php
