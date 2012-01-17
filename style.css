@@ -1,3 +1,10 @@
+#pins-feed-follow {
+	display:block;
+	padding:5px;
+	text-align:center;
+	width:100%;
+}
+
 ul.pins-feed-list {
 	list-style:none;
 	list-style-type:none;
