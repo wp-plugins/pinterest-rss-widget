@@ -53,6 +53,9 @@ Example:
 
 == Changelog ==
 
+= 1.2.1 =
+* Corrected "Follow Me On Pinterest" button image errors
+
 = 1.2 =
 * Added "Follow Me On Pinterest" button
 
