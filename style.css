@@ -1,0 +1,14 @@
+.pins-feed-item {
+	float:left;
+	font-size:12px;
+	line-height:14px;
+	margin:5px;
+	text-align:center;
+}
+
+.pins-feed-item .imgtitle {
+	height:25px;
+	margin:5px 0;
+}
+
+.pinsClear { clear:both; }
