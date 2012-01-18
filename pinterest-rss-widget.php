@@ -2,7 +2,7 @@
 /*
 Plugin Name: Pinterest RSS Widget
 Plugin URI: http://wordpress.org/extend/plugins/pinterest-rss-widget/
-Description: Display up to 90 of your latest Pinterest Pins in your sidebar.
+Description: Display up to 90 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
 Version: 1.2.3
 Author URI: http://bkmacdaddy.com/
@@ -54,8 +54,6 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $rss_items = $rss->get_items(0,$maxitems);
-				
-				if($thumbwidth 
 
                 ?>
 				

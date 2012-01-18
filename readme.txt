@@ -1,6 +1,6 @@
 === Pinterest RSS Widget ===
 Contributors: bkmacdaddy, AidaofNubia, thewebprincess
-Donate link: None! Keep your money for important things!
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC
 Tags: Pinterest, rss, feed, widget
 Requires at least: 2.8.4
 Tested up to: 3.3.1
@@ -83,4 +83,4 @@ There are so many variables that are related to hosting servers and such that it
 
 == Upgrade Notice ==
 
-= 1.2 =
+= 1.2.3 =
