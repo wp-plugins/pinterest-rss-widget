@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://wordpress.org/extend/plugins/pinterest-rss-widget/
 Description: Display up to 90 of your latest Pinterest Pins in your sidebar.
 Author: bkmacdaddy designs
-Version: 1.2.2
+Version: 1.2.3
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -54,6 +54,8 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $rss_items = $rss->get_items(0,$maxitems);
+				
+				if($thumbwidth 
 
                 ?>
 				
@@ -137,11 +139,15 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
     if ( empty( $useenclosures ) ) { $useenclosures = 'yes'; };
 
+    if ( empty( $thumb_width ) ) { $thumb_width = '150'; };
+
+    if ( empty( $thumb_height ) ) { $thumb_height = '150'; };
+
     if ( empty( $showfollow ) ) { $showfollow = 'yes'; };
 
     if ( !empty( $user_name ) ) {
 
-      get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_width, $showfollow); ?>
+      get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_height, $showfollow); ?>
 
                 <div style="clear:both;"></div>
 
@@ -183,9 +189,9 @@ class Pinterest_RSS_Widget extends WP_Widget {
 		     
       <p><label for="<?php echo $this->get_field_id('maxnumber'); ?>">Max number of pins to display: <input class="widefat" id="<?php echo $this->get_field_id('maxnumber'); ?>" name="<?php echo $this->get_field_name('maxnumber'); ?>" type="text" value="<?php echo attribute_escape($maxnumber); ?>" /></label></p>
       
-      <p><label for="<?php echo $this->get_field_id('thumb_height'); ?>">Thumbnail Height (defaults to 150px): <input class="widefat" id="<?php echo $this->get_field_id('thumb_height'); ?>" name="<?php echo $this->get_field_name('thumb_height'); ?>" type="text" value="<?php echo attribute_escape($thumb_height); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('thumb_height'); ?>">Thumbnail Height in pixels (defaults to 150): <input class="widefat" id="<?php echo $this->get_field_id('thumb_height'); ?>" name="<?php echo $this->get_field_name('thumb_height'); ?>" type="text" value="<?php echo attribute_escape($thumb_height); ?>" /></label></p>
       
-      <p><label for="<?php echo $this->get_field_id('thumb_width'); ?>">Thumbnail Width (defaults to 150px): <input class="widefat" id="<?php echo $this->get_field_id('thumb_width'); ?>" name="<?php echo $this->get_field_name('thumb_width'); ?>" type="text" value="<?php echo attribute_escape($thumb_width); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('thumb_width'); ?>">Thumbnail Width in pixels (defaults to 150): <input class="widefat" id="<?php echo $this->get_field_id('thumb_width'); ?>" name="<?php echo $this->get_field_name('thumb_width'); ?>" type="text" value="<?php echo attribute_escape($thumb_width); ?>" /></label></p>
 
       <p><label for="<?php echo $this->get_field_id('target'); ?>">Where to open the links: <select id="<?php echo $this->get_field_id('target'); ?>" name="<?php echo $this->get_field_name('target'); ?>">
         <?php 
@@ -241,5 +247,7 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
 // register_widget('Pinterest_RSS_Widget');
 add_action( 'widgets_init', create_function('', 'return register_widget("Pinterest_RSS_Widget");') );
+
+add_filter( 'wp_feed_cache_transient_lifetime', create_function('$a', 'return 600;') );
 
 ?>
