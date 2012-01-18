@@ -1,5 +1,5 @@
 === Pinterest RSS Widget ===
-Contributors: bkmacdaddy
+Contributors: bkmacdaddy, AidaofNubia, thewebprincess
 Donate link: None! Keep your money for important things!
 Tags: Pinterest, rss, feed, widget
 Requires at least: 2.8.4
@@ -46,12 +46,25 @@ Example:
 
 `<?php get_pins_feed_list('bkmacdaddy', 10, 'myList', 1, 'newwindow', 'yes', 125, 125, 'yes'); ?>` 
 
+= The images are not showing. What went wrong? =
+
+There are so many variables that are related to hosting servers and such that it's impossible to provide all of the possible answers. However, images not showing is most likely a problem with the timthumb image resizing script. Here are some possible solutions:
+
+* TimThumb requires the GD library, which is available on any host sever with PHP 4.3+ installed. Make sure your host has this installed (most do).
+* Once installed and in-use, TimThumb will automatically create a /cache/ subfolder with proper write-permissions. If your host server doesn't allow this by default, be sure to manually create the /cache/ folder within the pinterest-rss-widget directory and set the /cache/ folder permissions to 755. If this still doesn't work, try setting the /cache/ folder permissions to 777.
+* Known issue with timthumb.php on **Hostgator**: If your website is hosted on Hostgator, you may need to contact HostGator to request "mod_security whitelisting". More info here: http://support.hostgator.com/articles/specialized-help/technical/timthumb-basics
+
 == Screenshots ==
 
 1. Screenshot of the widget settings
 2. Widget on the front end with 9 Pins and titles displaying
 
 == Changelog ==
+
+= 1.2.3 =
+* Added FAQS based on some troubleshooting
+* Added 2 contributors for their testing assistance and suggestions
+* Tweaked instructions on the widget settings
 
 = 1.2.2 =
 * Fixed directory path errors on WP Multisite
