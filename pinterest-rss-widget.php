@@ -54,8 +54,6 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $rss_items = $rss->get_items(0,$maxitems);
-				
-				if($thumbwidth 
 
                 ?>
 				
