@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Pinterest RSS Widget
-Plugin URI: http://wordpress.org/extend/plugins/pinterest-rss-widget/
+Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-wordpress-plugin-to-display-your-latest-pins
 Description: Display up to 90 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 1.2.3
+Version: 1.2.4
 Author URI: http://bkmacdaddy.com/
 
 /* License

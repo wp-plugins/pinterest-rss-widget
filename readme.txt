@@ -51,7 +51,7 @@ Example:
 There are so many variables that are related to hosting servers and such that it's impossible to provide all of the possible answers. However, images not showing is most likely a problem with the timthumb image resizing script. Here are some possible solutions:
 
 * TimThumb requires the GD library, which is available on any host sever with PHP 4.3+ installed. Make sure your host has this installed (most do).
-* Once installed and in-use, TimThumb will automatically create a /cache/ subfolder with proper write-permissions. If your host server doesn't allow this by default, be sure to manually create the /cache/ folder within the pinterest-rss-widget directory and set the /cache/ folder permissions to 755. If this still doesn't work, try setting the /cache/ folder permissions to 777.
+* Once installed and in-use, TimThumb will automatically create a /prw_tmp/ subfolder in your/ wp-content/uploads/ directory with proper write-permissions. If your host server doesn't allow this by default, be sure to manually create the /prw_tmp/ subfolder in your/ wp-content/uploads/ directory and set the /prw_tmp/ folder permissions to 755. If this still doesn't work, try setting the /cache/ folder permissions to 777.
 * Known issue with timthumb.php on **Hostgator**: If your website is hosted on Hostgator, you may need to contact HostGator to request "mod_security whitelisting". More info here: http://support.hostgator.com/articles/specialized-help/technical/timthumb-basics
 
 == Screenshots ==
@@ -60,6 +60,11 @@ There are so many variables that are related to hosting servers and such that it
 2. Widget on the front end with 9 Pins and titles displaying
 
 == Changelog ==
+
+= 1.2.4 =
+* Changed location of cache folder for timthumb.php script to /wp-content/uploads/prw_tmp/
+* Changed URL of plugin site to http://www.bkmacdaddy.com/pinterest-rss-widget-wordpress-plugin-to-display-your-latest-pins
+* Added donation link
 
 = 1.2.3 =
 * Added FAQS based on some troubleshooting
@@ -83,4 +88,4 @@ There are so many variables that are related to hosting servers and such that it
 
 == Upgrade Notice ==
 
-= 1.2.3 =
+= 1.2.4 =
