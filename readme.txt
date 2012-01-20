@@ -92,4 +92,4 @@ There are so many variables that are related to hosting servers and such that it
 
 == Upgrade Notice ==
 
-= 1.2.4 =
+= 1.2.5 =
