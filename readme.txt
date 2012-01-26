@@ -14,6 +14,8 @@ This plugin allows you to place a widget on your sidebar that fetches the most r
 
 You can also use this plugin from your theme templates, to display images lists anywhere else on your blog and you can easily give them a fixed size or a maximum size with CSS styling.
 
+Starting with plugin version 1.3, you can also add a list of thumbnails of your Pins to a post or a page in the editor using the shortcode [prw username="Your Pinterest Username"]. (See FAQs for instructions).
+
 Note: This plugin is heavily based on the Image Feed Widget plugin created by Yorik van Havre (http://wordpress.org/extend/plugins/image-feed-widget/). It also utilizes the timthumb PHP script for image resizing (http://code.google.com/p/timthumb/)
 
 == Installation ==
@@ -23,6 +25,16 @@ Note: This plugin is heavily based on the Image Feed Widget plugin created by Yo
 3. A new "Pinterest RSS Widget" will be available under Appearance > Widgets, where you can add it to your sidebar and edit all settings of the plugin.
 
 == Frequently Asked Questions ==
+
+= How do I use the shortcode in the post or page editor? =
+
+While editing the post or page that you want to add your Pins to, enter the shortcode [prw username="Your Pinterest Username"]. At the very minimum you have to include the username parameter, substituting "Your Pinterest Username" with your actual Pinterest username. The rest of the parameters are the same as listed below in the template tags explanation, and the defaults are also the same. Here's an example:
+
+`[prw username="bkmacdaddy" maxfeeds="10" divname="myList" printtext="0" target="newwindow" useenclosures="yes" thumbwidth="100" thumbheight="100" showfollow="medium"]`
+
+The above example will show the 10 latest Pins from bkmacdaddy's Pinterest account, in a div class titled "pins-feed-myList". Each thumbnail will be 100 x 100 pixels with no description below them. When clicked on, the Pin will open in a new tab/window, and the Follow Me On Pinterest button at the bottom will be the medium sized one.
+
+If you leave out any of the parameters they will revert to the defaults listed below.
 
 = How do I use the plugin in my theme? =
 
@@ -62,6 +74,9 @@ There are so many variables that are related to hosting servers and such that it
 
 == Changelog ==
 
+= 1.3 =
+* Added shortcode for use in posts and pages
+
 = 1.2.5 =
 * Added ability to choose 4 different sizes of "Follow Me On Pinterest" buttons
 
@@ -92,4 +107,4 @@ There are so many variables that are related to hosting servers and such that it
 
 == Upgrade Notice ==
 
-= 1.2.5 =
+= 1.3 =

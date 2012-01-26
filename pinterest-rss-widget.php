@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 90 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 1.2.5
+Version: 1.3
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -257,6 +257,27 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
 // register_widget('Pinterest_RSS_Widget');
 add_action( 'widgets_init', create_function('', 'return register_widget("Pinterest_RSS_Widget");') );
+
+function prw_shortcode( $atts )	{
+ 
+	extract( shortcode_atts( array(
+				'username' => '',
+				'maxfeeds' => 90,
+				'divname' => 'standard',
+				'printtext' => NULL,
+				'target' => 'samewindow',
+				'useenclosures' => 'yes',
+				'thumbwidth' => 150,
+				'thumbheight' => 150,
+				'showfollow' => 'large'
+			), $atts 
+		) 
+	);
+	// this will display our message before the content of the shortcode
+	get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow);
+ 
+}
+add_shortcode('prw', 'prw_shortcode');
 
 add_filter( 'wp_feed_cache_transient_lifetime', create_function('$a', 'return 600;') );
 
