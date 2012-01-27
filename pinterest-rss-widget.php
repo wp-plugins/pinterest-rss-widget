@@ -2,7 +2,7 @@
 /*
 Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
-Description: Display up to 90 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
+Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
 Version: 1.3
 Author URI: http://bkmacdaddy.com/
@@ -38,7 +38,7 @@ function add_pinterest_rss_css() {
 	}
 }
 
-function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='large') {
+function get_pins_feed_list($username, $maxfeeds=25, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='large') {
 
                 // This is the main function of the plugin. It is used by the widget and can also be called from anywhere in your theme. See the readme file for example.
 
@@ -262,7 +262,7 @@ function prw_shortcode( $atts )	{
  
 	extract( shortcode_atts( array(
 				'username' => '',
-				'maxfeeds' => 90,
+				'maxfeeds' => 25,
 				'divname' => 'standard',
 				'printtext' => NULL,
 				'target' => 'samewindow',
