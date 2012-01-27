@@ -45,7 +45,7 @@ Anywhere in your theme templates, you can display the list of latest Pins thumbn
 Where:
 
 * **username** is the Pinterest username you wish to display Pins from (mandatory)
-* **maxfeeds** is the maximum number of Pins to display (optional, default = 90)
+* **maxfeeds** is the maximum number of Pins to display (optional, default = 25)
 * **divname** is a name suffix for the list class. "myList" will become "pins-feed-myList" (optional)
 * **printtext** must be 1 if you want the first few words of the Pin description to be printed below the thumbnail (optional)
 * **target** is "samewindow" or "newwindow", depending on where you want links to open (optional, default = samewindow)
