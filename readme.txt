@@ -74,6 +74,9 @@ There are so many variables that are related to hosting servers and such that it
 
 == Changelog ==
 
+= 1.3.1 =
+* Repaired error in shortcode
+
 = 1.3 =
 * Added shortcode for use in posts and pages
 
