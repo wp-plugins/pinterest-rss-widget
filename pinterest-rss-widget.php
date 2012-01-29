@@ -2,9 +2,9 @@
 /*
 Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
-Description: Display up to 90 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
+Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 1.2.4
+Version: 1.3.1
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -38,7 +38,7 @@ function add_pinterest_rss_css() {
 	}
 }
 
-function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='yes') {
+function get_pins_feed_list($username, $maxfeeds=25, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='large') {
 
                 // This is the main function of the plugin. It is used by the widget and can also be called from anywhere in your theme. See the readme file for example.
 
@@ -55,18 +55,16 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
                 // Build an array of all the items, starting with element 0 (first element).
                 $rss_items = $rss->get_items(0,$maxitems);
 
-                ?>
-				
-                <ul class="pins-feed-list"><?php
+				ob_start();
+                echo '<ul class="pins-feed-list">';
 		// Loop through each feed item and display each item as a hyperlink.
-		  foreach ( $rss_items as $item ) : ?>
-		    <li class="pins-feed-item" style="width:<?php echo $thumbwidth; ?>px;">
-				<div class="pins-feed-<?php echo $divname; ?>">
-					<a href="<?php echo $item->get_permalink(); ?>"
-					<?php if ($target == 'newwindow') { echo 'target="_BLANK" '; }; ?>
-		            title="<?php echo $item->get_title().' - Pinned on '.$item->get_date('M d, Y'); ?>">
-						
-						<?php 
+		  foreach ( $rss_items as $item ) : 
+		    echo '<li class="pins-feed-item" style="width:'. $thumbwidth .'px;">';
+			echo '<div class="pins-feed-'.$divname.'">';
+			echo '<a href="'.$item->get_permalink().'"';
+			if ($target == 'newwindow') { echo 'target="_BLANK" '; };
+		    echo 'title="'.$item->get_title().' - Pinned on '.$item->get_date('M d, Y').'">'; 
+			
 							$pinterest_timthumbUrl = plugins_url('timthumb.php', __FILE__);
 							if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
                                 $thumb = $thumb[0]['attribs']['']['url'];
@@ -91,27 +89,62 @@ function get_pins_feed_list($username, $maxfeeds=90, $divname='standard', $print
                               if ($printtext != 'no') {
                                 echo "<div class='imgtitle'>".$item->get_title()."</div>";
                               }
-                            }?>
-                          </a>
-                      </div>
-		    </li>
-		  <?php endforeach; ?>
-          <div class="pinsClear"></div>
-		</ul>
-        <?php 
+                            }
+                          echo '</a>';
+                      echo '</div>';
+		    echo '</li>';
+		  endforeach;
+          echo '<div class="pinsClear"></div>';
+		echo '</ul>'; 
 			$pinterest_followButton = plugins_url('follow-on-pinterest-button.png', __FILE__);
-			if ($showfollow == 'yes') { ?>
-            <a href="http://pinterest.com/<?php echo $username; ?>/" id="pins-feed-follow" target="_blank">
-                <img src="http://passets-cdn.pinterest.com/images/follow-on-pinterest-button.png" width="156" height="26" alt="Follow Me on Pinterest" border="0" />
-            </a>
-		<?php } ?>
-                <?php
+			if ($showfollow == 'large') { 
+				echo '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followLarge" title="Follow Me on Pinterest">';
+					echo '<img src="http://passets-cdn.pinterest.com/images/follow-on-pinterest-button.png" width="156" height="26" alt="Follow Me on Pinterest" border="0" />';
+				echo '</a>';
+		 	} elseif ($showfollow == 'medium') { 
+        		echo '<a href="http://pinterest.com/'. $username.'/" id="pins-feed-follow" target="_blank" class="followMed" title="Follow Me on Pinterest">';
+                	echo '<img src="http://passets-cdn.pinterest.com/images/pinterest-button.png" width="78" height="26" alt="Follow Me on Pinterest" border="0" />';
+            	echo '</a>';
+        	} elseif ($showfollow == 'small') { 
+        		echo '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followSmall" title="Follow Me on Pinterest">';
+                	echo '<img src="http://passets-cdn.pinterest.com/images/big-p-button.png" width="61" height="61" alt="Follow Me on Pinterest" border="0" />';
+            	echo '</a>';
+        	} elseif ($showfollow == 'tiny') { 
+        		echo '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followTiny" title="Follow Me on Pinterest">';
+                	echo '<img src="http://passets-cdn.pinterest.com/images/small-p-button.png" width="16" height="16" alt="Follow Me on Pinterest" border="0" />';
+            	echo '</a>';
+        	} elseif ($showfollow == 'none') {} 
+			
+			$list = ob_get_clean();
+			return $list;
 }
+
+function prw_shortcode( $atts )	{
+ 
+	extract( shortcode_atts( array(
+				'username' => '',
+				'maxfeeds' => 25,
+				'divname' => 'standard',
+				'printtext' => NULL,
+				'target' => 'samewindow',
+				'useenclosures' => 'yes',
+				'thumbwidth' => 150,
+				'thumbheight' => 150,
+				'showfollow' => 'large'
+			), $atts 
+		) 
+	);
+	// this will display the latest pins
+	$prwsc = get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow);
+	return $prwsc;
+ 
+}
+add_shortcode('prw', 'prw_shortcode');
 
 class Pinterest_RSS_Widget extends WP_Widget {
   function Pinterest_RSS_Widget() {
     $widget_ops = array('classname' => 'pinterest_rss_widget', 'description' => 'A widget to display latest Pinterest Pins via RSS feed' );
-    $this->WP_Widget('pinterest_rss_widget', 'Pinterest_RSS_Widget', $widget_ops);
+    $this->WP_Widget('pinterest_rss_widget', 'Pinterest RSS Widget', $widget_ops);
   }
 
   function widget($args, $instance) {
@@ -141,11 +174,11 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
     if ( empty( $thumb_height ) ) { $thumb_height = '150'; };
 
-    if ( empty( $showfollow ) ) { $showfollow = 'yes'; };
+    if ( empty( $showfollow ) ) { $showfollow = 'none'; };
 
     if ( !empty( $user_name ) ) {
 
-      get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_height, $showfollow); ?>
+      echo get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_height, $showfollow); ?>
 
                 <div style="clear:both;"></div>
 
@@ -181,29 +214,17 @@ class Pinterest_RSS_Widget extends WP_Widget {
     $useenclosures = strip_tags($instance['useenclosures']);
     $showfollow = strip_tags($instance['showfollow']);
 ?>
-      <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: <br /><input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
 								    
-      <p><label for="<?php echo $this->get_field_id('user_name__title'); ?>">Pinterest Username: <input class="widefat" id="<?php echo $this->get_field_id('user_name'); ?>" name="<?php echo $this->get_field_name('user_name'); ?>" type="text" value="<?php echo attribute_escape($user_name); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('user_name__title'); ?>">Pinterest Username: <br /><input class="widefat" id="<?php echo $this->get_field_id('user_name'); ?>" name="<?php echo $this->get_field_name('user_name'); ?>" type="text" value="<?php echo attribute_escape($user_name); ?>" /></label></p>
 		     
-      <p><label for="<?php echo $this->get_field_id('maxnumber'); ?>">Max number of pins to display: <input class="widefat" id="<?php echo $this->get_field_id('maxnumber'); ?>" name="<?php echo $this->get_field_name('maxnumber'); ?>" type="text" value="<?php echo attribute_escape($maxnumber); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('maxnumber'); ?>">Max number of pins to display: <br /><input class="widefat" id="<?php echo $this->get_field_id('maxnumber'); ?>" name="<?php echo $this->get_field_name('maxnumber'); ?>" type="text" value="<?php echo attribute_escape($maxnumber); ?>" /></label></p>
       
-      <p><label for="<?php echo $this->get_field_id('thumb_height'); ?>">Thumbnail Height in pixels (defaults to 150): <input class="widefat" id="<?php echo $this->get_field_id('thumb_height'); ?>" name="<?php echo $this->get_field_name('thumb_height'); ?>" type="text" value="<?php echo attribute_escape($thumb_height); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('thumb_height'); ?>">Thumbnail Height in pixels<br /><em>(defaults to 150):</em><br /><input class="widefat" id="<?php echo $this->get_field_id('thumb_height'); ?>" name="<?php echo $this->get_field_name('thumb_height'); ?>" type="text" value="<?php echo attribute_escape($thumb_height); ?>" /></label></p>
       
-      <p><label for="<?php echo $this->get_field_id('thumb_width'); ?>">Thumbnail Width in pixels (defaults to 150): <input class="widefat" id="<?php echo $this->get_field_id('thumb_width'); ?>" name="<?php echo $this->get_field_name('thumb_width'); ?>" type="text" value="<?php echo attribute_escape($thumb_width); ?>" /></label></p>
+      <p><label for="<?php echo $this->get_field_id('thumb_width'); ?>">Thumbnail Width in pixels<br /><em>(defaults to 150):</em><br /><input class="widefat" id="<?php echo $this->get_field_id('thumb_width'); ?>" name="<?php echo $this->get_field_name('thumb_width'); ?>" type="text" value="<?php echo attribute_escape($thumb_width); ?>" /></label></p>
 
-      <p><label for="<?php echo $this->get_field_id('target'); ?>">Where to open the links: <select id="<?php echo $this->get_field_id('target'); ?>" name="<?php echo $this->get_field_name('target'); ?>">
-        <?php 
-  	  echo '<option ';
-          if ( $instance['target'] == 'samewindow' ) { echo 'selected '; }
-          echo 'value="samewindow">';
-	  echo 'Same Window</option>';
-  	  echo '<option ';
-          if ( $instance['target'] == 'newwindow' ) { echo 'selected '; }
-          echo 'value="newwindow">';
-	  echo 'New Window</option>'; ?>
-      </select></label></p>
-
-      <p><label for="<?php echo $this->get_field_id('displaytitle'); ?>">Display title below pins? <select id="<?php echo $this->get_field_id('displaytitle'); ?>" name="<?php echo $this->get_field_name('displaytitle'); ?>">
+      <p><label for="<?php echo $this->get_field_id('displaytitle'); ?>">Display title below pins? &nbsp;<select id="<?php echo $this->get_field_id('displaytitle'); ?>" name="<?php echo $this->get_field_name('displaytitle'); ?>">
         <?php 
   	  echo '<option ';
           if ( $instance['displaytitle'] == 'yes' ) { echo 'selected '; }
@@ -215,28 +236,41 @@ class Pinterest_RSS_Widget extends WP_Widget {
 	  echo 'No</option>'; ?>
       </select></label></p>
       
-      <p><label for="<?php echo $this->get_field_id('showfollow'); ?>">Show "Follow Me On Pinterest" button <select id="<?php echo $this->get_field_id('showfollow'); ?>" name="<?php echo $this->get_field_name('showfollow'); ?>">
+      <p><label for="<?php echo $this->get_field_id('target'); ?>">Where to open the links: <br /><select id="<?php echo $this->get_field_id('target'); ?>" name="<?php echo $this->get_field_name('target'); ?>">
         <?php 
   	  echo '<option ';
-          if ( $instance['showfollow'] == 'yes' ) { echo 'selected '; }
-          echo 'value="yes">';
-	  echo 'Yes</option>';
+          if ( $instance['target'] == 'samewindow' ) { echo 'selected '; }
+          echo 'value="samewindow">';
+	  echo 'Same Window</option>';
   	  echo '<option ';
-          if ( $instance['showfollow'] == 'no' ) { echo 'selected '; }
-          echo 'value="no">';
-	  echo 'No</option>'; ?>
-      </select></label></p>
-
-      <p><label for="<?php echo $this->get_field_id('useenclosures'); ?>">Use RSS enclosures? (leave yes if unsure) <select id="<?php echo $this->get_field_id('useenclosures'); ?>" name="<?php echo $this->get_field_name('useenclosures'); ?>">
+          if ( $instance['target'] == 'newwindow' ) { echo 'selected '; }
+          echo 'value="newwindow">';
+	  echo 'New Window</option>'; ?>
+      </select></label></p>      
+      
+      <p><label for="<?php echo $this->get_field_id('showfollow'); ?>">Show "Follow Me On Pinterest" button? <br /><select id="<?php echo $this->get_field_id('showfollow'); ?>" name="<?php echo $this->get_field_name('showfollow'); ?>">
         <?php 
-  	  echo '<option ';
-          if ( $instance['useenclosures'] == 'yes' ) { echo 'selected '; }
-          echo 'value="yes">';
-	  echo 'Yes</option>';
-  	  echo '<option ';
-          if ( $instance['useenclosures'] == 'no' ) { echo 'selected '; }
-          echo 'value="no">';
-	  echo 'No</option>'; ?>
+			echo '<option ';
+				if ( $instance['showfollow'] == 'large' ) { echo 'selected '; }
+					echo 'value="large">';
+					echo 'Large (156x26) </option>';
+			echo '<option ';
+				if ( $instance['showfollow'] == 'medium' ) { echo 'selected '; }
+					echo 'value="medium">';
+					echo 'Medium (78x26) </option>'; 
+			echo '<option ';
+				if ( $instance['showfollow'] == 'small' ) { echo 'selected '; }
+					echo 'value="small">';
+					echo 'Small (61x61) </option>';
+			echo '<option ';
+				if ( $instance['showfollow'] == 'tiny' ) { echo 'selected '; }
+					echo 'value="tiny">';
+					echo 'Tiny (16x16) </option>';
+			echo '<option ';
+				if ( $instance['showfollow'] == 'none' ) { echo 'selected '; }
+					echo 'value="none">';
+					echo 'None </option>';
+		?>
       </select></label></p>
 
 <?php
