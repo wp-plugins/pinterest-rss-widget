@@ -74,6 +74,9 @@ There are so many variables that are related to hosting servers and such that it
 
 == Changelog ==
 
+= 1.3.2 =
+* Recoded to remove ob_ functions that were not working on certain server configurations
+
 = 1.3.1 =
 * Repaired error in shortcode
 
@@ -110,4 +113,4 @@ There are so many variables that are related to hosting servers and such that it
 
 == Upgrade Notice ==
 
-= 1.3.1 =
+= 1.3.2 =

@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 1.3.1
+Version: 1.3.2
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -54,69 +54,68 @@ function get_pins_feed_list($username, $maxfeeds=25, $divname='standard', $print
 
                 // Build an array of all the items, starting with element 0 (first element).
                 $rss_items = $rss->get_items(0,$maxitems);
-
-				ob_start();
-                echo '<ul class="pins-feed-list">';
-		// Loop through each feed item and display each item as a hyperlink.
-		  foreach ( $rss_items as $item ) : 
-		    echo '<li class="pins-feed-item" style="width:'. $thumbwidth .'px;">';
-			echo '<div class="pins-feed-'.$divname.'">';
-			echo '<a href="'.$item->get_permalink().'"';
-			if ($target == 'newwindow') { echo 'target="_BLANK" '; };
-		    echo 'title="'.$item->get_title().' - Pinned on '.$item->get_date('M d, Y').'">'; 
-			
-							$pinterest_timthumbUrl = plugins_url('timthumb.php', __FILE__);
-							if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
-                                $thumb = $thumb[0]['attribs']['']['url'];
-	                        	echo '<img src="'.$pinterest_timthumbUrl.'?src='.$thumb.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
-                                echo ' alt="'.$item->get_title().'"/>';
-                             } else if ( $useenclosures == 'yes' && $enclosure = $item->get_enclosure() ) {
-                                $enclosure = $item->get_enclosures();
-								echo '<img src="'.$pinterest_timthumbUrl.'?src='.$enclosure[0]->get_link().'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
-                                echo ' alt="'.$item->get_title().'"/>';
-                            }  else {
-								preg_match('/src="([^"]*)"/', $item->get_content(), $matches);
-								$src = $matches[1];
-								
-                                if ($matches) {
-                                  echo '<img src="'.$pinterest_timthumbUrl.'?src='.$src.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
-                                echo ' alt="'.$item->get_title().'"/>';
-                                } else {
-                                  echo "thumbnail not available";
-                                }
-                            } 
-                            if ($printtext) {
-                              if ($printtext != 'no') {
-                                echo "<div class='imgtitle'>".$item->get_title()."</div>";
-                              }
-                            }
-                          echo '</a>';
-                      echo '</div>';
-		    echo '</li>';
-		  endforeach;
-          echo '<div class="pinsClear"></div>';
-		echo '</ul>'; 
-			$pinterest_followButton = plugins_url('follow-on-pinterest-button.png', __FILE__);
-			if ($showfollow == 'large') { 
-				echo '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followLarge" title="Follow Me on Pinterest">';
-					echo '<img src="http://passets-cdn.pinterest.com/images/follow-on-pinterest-button.png" width="156" height="26" alt="Follow Me on Pinterest" border="0" />';
-				echo '</a>';
-		 	} elseif ($showfollow == 'medium') { 
-        		echo '<a href="http://pinterest.com/'. $username.'/" id="pins-feed-follow" target="_blank" class="followMed" title="Follow Me on Pinterest">';
-                	echo '<img src="http://passets-cdn.pinterest.com/images/pinterest-button.png" width="78" height="26" alt="Follow Me on Pinterest" border="0" />';
-            	echo '</a>';
-        	} elseif ($showfollow == 'small') { 
-        		echo '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followSmall" title="Follow Me on Pinterest">';
-                	echo '<img src="http://passets-cdn.pinterest.com/images/big-p-button.png" width="61" height="61" alt="Follow Me on Pinterest" border="0" />';
-            	echo '</a>';
-        	} elseif ($showfollow == 'tiny') { 
-        		echo '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followTiny" title="Follow Me on Pinterest">';
-                	echo '<img src="http://passets-cdn.pinterest.com/images/small-p-button.png" width="16" height="16" alt="Follow Me on Pinterest" border="0" />';
-            	echo '</a>';
-        	} elseif ($showfollow == 'none') {} 
-			
-			$list = ob_get_clean();
-			return $list;
+				
+                $content = '';
+				$content .= '<ul class="pins-feed-list">';
+				// Loop through each feed item and display each item as a hyperlink.
+				  foreach ( $rss_items as $item ) : 
+					$content .= '<li class="pins-feed-item" style="width:'. $thumbwidth .'px;">';
+					$content .= '<div class="pins-feed-'.$divname.'">';
+					$content .= '<a href="'.$item->get_permalink().'"';
+					if ($target == 'newwindow') { $content .= 'target="_BLANK" '; };
+					$content .= 'title="'.$item->get_title().' - Pinned on '.$item->get_date('M d, Y').'">'; 
+					
+									$pinterest_timthumbUrl = plugins_url('timthumb.php', __FILE__);
+									if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
+										$thumb = $thumb[0]['attribs']['']['url'];
+										$content .= '<img src="'.$pinterest_timthumbUrl.'?src='.$thumb.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+										$content .= ' alt="'.$item->get_title().'"/>';
+									 } else if ( $useenclosures == 'yes' && $enclosure = $item->get_enclosure() ) {
+										$enclosure = $item->get_enclosures();
+										$content .= '<img src="'.$pinterest_timthumbUrl.'?src='.$enclosure[0]->get_link().'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+										$content .= ' alt="'.$item->get_title().'"/>';
+									}  else {
+										preg_match('/src="([^"]*)"/', $item->get_content(), $matches);
+										$src = $matches[1];
+										
+										if ($matches) {
+										  $content .= '<img src="'.$pinterest_timthumbUrl.'?src='.$src.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+										$content .= ' alt="'.$item->get_title().'"/>';
+										} else {
+										  $content .= "thumbnail not available";
+										}
+									} 
+									if ($printtext) {
+									  if ($printtext != 'no') {
+										$content .= "<div class='imgtitle'>".$item->get_title()."</div>";
+									  }
+									}
+								  $content .= '</a>';
+							  $content .= '</div>';
+					$content .= '</li>';
+				  endforeach;
+				  $content .= '<div class="pinsClear"></div>';
+				$content .= '</ul>'; 
+					$pinterest_followButton = plugins_url('follow-on-pinterest-button.png', __FILE__);
+					if ($showfollow == 'large') { 
+						$content .= '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followLarge" title="Follow Me on Pinterest">';
+							$content .= '<img src="http://passets-cdn.pinterest.com/images/follow-on-pinterest-button.png" width="156" height="26" alt="Follow Me on Pinterest" border="0" />';
+						$content .= '</a>';
+					} elseif ($showfollow == 'medium') { 
+						$content .= '<a href="http://pinterest.com/'. $username.'/" id="pins-feed-follow" target="_blank" class="followMed" title="Follow Me on Pinterest">';
+							$content .= '<img src="http://passets-cdn.pinterest.com/images/pinterest-button.png" width="78" height="26" alt="Follow Me on Pinterest" border="0" />';
+						$content .= '</a>';
+					} elseif ($showfollow == 'small') { 
+						$content .= '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followSmall" title="Follow Me on Pinterest">';
+							$content .= '<img src="http://passets-cdn.pinterest.com/images/big-p-button.png" width="61" height="61" alt="Follow Me on Pinterest" border="0" />';
+						$content .= '</a>';
+					} elseif ($showfollow == 'tiny') { 
+						$content .= '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followTiny" title="Follow Me on Pinterest">';
+							$content .= '<img src="http://passets-cdn.pinterest.com/images/small-p-button.png" width="16" height="16" alt="Follow Me on Pinterest" border="0" />';
+						$content .= '</a>';
+					} elseif ($showfollow == 'none') {} 
+					
+					return $content;
 }
 
 function prw_shortcode( $atts )	{

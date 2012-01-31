@@ -6,15 +6,15 @@
 }
 
 ul.pins-feed-list {
-	list-style:none;
-	list-style-type:none;
+	list-style:none !important;
+	list-style-type:none !important;
 	margin:0;
 	padding:0;
 }
 
 li.pins-feed-item {
-	list-style:none;
-	list-style-type:none;
+	list-style:none !important;
+	list-style-type:none !important;
 	float:left;
 	font-size:12px;
 	line-height:14px;
