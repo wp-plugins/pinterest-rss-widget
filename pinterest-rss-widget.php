@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 1.3.2
+Version: 1.5
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -38,15 +38,18 @@ function add_pinterest_rss_css() {
 	}
 }
 
-function get_pins_feed_list($username, $maxfeeds=25, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='large') {
+function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='standard', $printtext=NULL, $target='samewindow', $useenclosures='yes', $thumbwidth='150', $thumbheight='150', $showfollow='large') {
 
                 // This is the main function of the plugin. It is used by the widget and can also be called from anywhere in your theme. See the readme file for example.
 
 		// Get Pinterest Feed(s)
 		include_once(ABSPATH . WPINC . '/feed.php');
+				if( empty($boardname) ){
+					$pinsfeed = 'http://pinterest.com/'.$username.'/feed.rss';
+				}
+				else $pinsfeed = 'http://pinterest.com/'.$username.'/'.$boardname.'/rss';
 
                 // Get a SimplePie feed object from the Pinterest feed source
-				$pinsfeed = 'http://pinterest.com/'.$username.'/feed.rss';
                 $rss = fetch_feed($pinsfeed);
 
                 // Figure out how many total items there are. 
@@ -122,6 +125,7 @@ function prw_shortcode( $atts )	{
  
 	extract( shortcode_atts( array(
 				'username' => '',
+				'boardname' => '',
 				'maxfeeds' => 25,
 				'divname' => 'standard',
 				'printtext' => NULL,
@@ -134,7 +138,7 @@ function prw_shortcode( $atts )	{
 		) 
 	);
 	// this will display the latest pins
-	$prwsc = get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow);
+	$prwsc = get_pins_feed_list($username, $boardname, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow);
 	return $prwsc;
  
 }
@@ -153,6 +157,7 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
     $title = empty($instance['title']) ? '&nbsp;' : apply_filters('widget_title', $instance['title']);
     $user_name = empty($instance['user_name']) ? '&nbsp;' : $instance['user_name'];
+    $board_name = empty($instance['board_name']) ? '' : $instance['board_name'];
     $maxnumber = empty($instance['maxnumber']) ? '&nbsp;' : $instance['maxnumber'];
     $thumb_height = empty($instance['thumb_height']) ? '&nbsp;' : $instance['thumb_height'];
     $thumb_width = empty($instance['thumb_width']) ? '&nbsp;' : $instance['thumb_width'];
@@ -162,6 +167,8 @@ class Pinterest_RSS_Widget extends WP_Widget {
     $showfollow = empty($instance['showfollow']) ? '&nbsp;' : $instance['showfollow'];
  
     if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
+
+    if ( empty( $board_name ) ) { $board_name = ''; };
 
     if ( empty( $target ) ) { $target = 'samewindow'; };
 
@@ -177,7 +184,7 @@ class Pinterest_RSS_Widget extends WP_Widget {
 
     if ( !empty( $user_name ) ) {
 
-      echo get_pins_feed_list($user_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_height, $showfollow); ?>
+      echo get_pins_feed_list($user_name, $board_name, $maxnumber, 'small', $displaytitle, $target, $useenclosures, $thumb_width, $thumb_height, $showfollow); ?>
 
                 <div style="clear:both;"></div>
 
@@ -190,6 +197,7 @@ class Pinterest_RSS_Widget extends WP_Widget {
     $instance = $old_instance;
     $instance['title'] = strip_tags($new_instance['title']);
     $instance['user_name'] = strip_tags($new_instance['user_name']);
+    $instance['board_name'] = strip_tags($new_instance['board_name']);
     $instance['maxnumber'] = strip_tags($new_instance['maxnumber']);
     $instance['thumb_height'] = strip_tags($new_instance['thumb_height']);
     $instance['thumb_width'] = strip_tags($new_instance['thumb_width']);
@@ -202,9 +210,10 @@ class Pinterest_RSS_Widget extends WP_Widget {
   }
  
   function form($instance) {
-    $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'user_name' => '', 'maxnumber' => '', 'thumb_height' => '', 'thumb_width' => '', 'target' => '', 'displaytitle' => '', 'useenclosures' => '', 'showfollow' => '') );
+    $instance = wp_parse_args( (array) $instance, array( 'title' => '', 'user_name' => '', 'board_name' => '', 'maxnumber' => '', 'thumb_height' => '', 'thumb_width' => '', 'target' => '', 'displaytitle' => '', 'useenclosures' => '', 'showfollow' => '') );
     $title = strip_tags($instance['title']);
     $user_name = strip_tags($instance['user_name']);
+    $board_name = strip_tags($instance['board_name']);
     $maxnumber = strip_tags($instance['maxnumber']);
     $thumb_height = strip_tags($instance['thumb_height']);
     $thumb_width = strip_tags($instance['thumb_width']);
@@ -216,6 +225,8 @@ class Pinterest_RSS_Widget extends WP_Widget {
       <p><label for="<?php echo $this->get_field_id('title'); ?>">Title: <br /><input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo attribute_escape($title); ?>" /></label></p>
 								    
       <p><label for="<?php echo $this->get_field_id('user_name__title'); ?>">Pinterest Username: <br /><input class="widefat" id="<?php echo $this->get_field_id('user_name'); ?>" name="<?php echo $this->get_field_name('user_name'); ?>" type="text" value="<?php echo attribute_escape($user_name); ?>" /></label></p>
+      
+      <p><label for="<?php echo $this->get_field_id('user_name__board'); ?>">Username Board: (Optional) <br /><input class="widefat" id="<?php echo $this->get_field_id('board_name'); ?>" name="<?php echo $this->get_field_name('board_name'); ?>" type="text" value="<?php echo attribute_escape($board_name); ?>" /></label></p>
 		     
       <p><label for="<?php echo $this->get_field_id('maxnumber'); ?>">Max number of pins to display: <br /><input class="widefat" id="<?php echo $this->get_field_id('maxnumber'); ?>" name="<?php echo $this->get_field_name('maxnumber'); ?>" type="text" value="<?php echo attribute_escape($maxnumber); ?>" /></label></p>
       

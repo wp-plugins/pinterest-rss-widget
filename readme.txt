@@ -1,5 +1,5 @@
 === Pinterest RSS Widget ===
-Contributors: bkmacdaddy, AidaofNubia, thewebprincess
+Contributors: bkmacdaddy, AidaofNubia, thewebprincess, leepettijohn
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC
 Tags: Pinterest, rss, feed, widget
 Requires at least: 2.8.4
@@ -16,6 +16,8 @@ You can also use this plugin from your theme templates, to display images lists 
 
 Starting with plugin version 1.3, you can also add a list of thumbnails of your Pins to a post or a page in the editor using the shortcode [prw username="Your Pinterest Username"]. (See FAQs for instructions).
 
+Version 1.4 adds the capability of showing pins from a specific board in the widget or shortcode, rather than just all of the latest pins from a specific user. (See FAQs for instructions).
+
 Note: This plugin is heavily based on the Image Feed Widget plugin created by Yorik van Havre (http://wordpress.org/extend/plugins/image-feed-widget/). It also utilizes the timthumb PHP script for image resizing (http://code.google.com/p/timthumb/)
 
 == Installation ==
@@ -30,9 +32,9 @@ Note: This plugin is heavily based on the Image Feed Widget plugin created by Yo
 
 While editing the post or page that you want to add your Pins to, enter the shortcode [prw username="Your Pinterest Username"]. At the very minimum you have to include the username parameter, substituting "Your Pinterest Username" with your actual Pinterest username. The rest of the parameters are the same as listed below in the template tags explanation, and the defaults are also the same. Here's an example:
 
-`[prw username="bkmacdaddy" maxfeeds="10" divname="myList" printtext="0" target="newwindow" useenclosures="yes" thumbwidth="100" thumbheight="100" showfollow="medium"]`
+`[prw username="bkmacdaddy" boardname="design-inspiration" maxfeeds="10" divname="myList" printtext="0" target="newwindow" useenclosures="yes" thumbwidth="100" thumbheight="100" showfollow="medium"]`
 
-The above example will show the 10 latest Pins from bkmacdaddy's Pinterest account, in a div class titled "pins-feed-myList". Each thumbnail will be 100 x 100 pixels with no description below them. When clicked on, the Pin will open in a new tab/window, and the Follow Me On Pinterest button at the bottom will be the medium sized one.
+The above example will show the 10 latest Pins from bkmacdaddy's Design Inspiration board, in a div class titled "pins-feed-myList". Each thumbnail will be 100 x 100 pixels with no description below them. When clicked on, the Pin will open in a new tab/window, and the Follow Me On Pinterest button at the bottom will be the medium sized one.
 
 If you leave out any of the parameters they will revert to the defaults listed below.
 
@@ -40,11 +42,12 @@ If you leave out any of the parameters they will revert to the defaults listed b
 
 Anywhere in your theme templates, you can display the list of latest Pins thumbnails by placing the following code where you want them to appear:
 
-`<?php get_pins_feed_list($username, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow); ?>`
+`<?php get_pins_feed_list($username, $boardname, $maxfeeds, $divname, $printtext, $target, $useenclosures, $thumbwidth, $thumbheight, $showfollow); ?>`
 
 Where:
 
 * **username** is the Pinterest username you wish to display Pins from (mandatory)
+* **boardname** is the slug (URL) of a specific board. This must be the actual part of the URL that designates the board (i.e. http://pinterest.com/bkmacdaddy/**design-inspiration**/ - the portion in bold) (optional)
 * **maxfeeds** is the maximum number of Pins to display (optional, default = 25)
 * **divname** is a name suffix for the list class. "myList" will become "pins-feed-myList" (optional)
 * **printtext** must be 1 if you want the first few words of the Pin description to be printed below the thumbnail (optional)
@@ -56,7 +59,7 @@ Where:
 
 Example:
 
-`<?php get_pins_feed_list('bkmacdaddy', 10, 'myList', 1, 'newwindow', 'yes', 125, 125, 'large'); ?>` 
+`<?php get_pins_feed_list('bkmacdaddy', 'design-inspiration', 10, 'myList', 1, 'newwindow', 'yes', 125, 125, 'large'); ?>` 
 
 = The images are not showing. What went wrong? =
 
@@ -73,6 +76,12 @@ There are so many variables that are related to hosting servers and such that it
 3. Choose one of four buttons (or none) to display beneath the list of Pins
 
 == Changelog ==
+
+= 1.5 =
+* Updated to latest version of timthumb.php
+
+= 1.4 =
+* Added the capability to show pins from a specific board
 
 = 1.3.2 =
 * Recoded to remove ob_ functions that were not working on certain server configurations
@@ -113,4 +122,4 @@ There are so many variables that are related to hosting servers and such that it
 
 == Upgrade Notice ==
 
-= 1.3.2 =
+= 1.4 =
