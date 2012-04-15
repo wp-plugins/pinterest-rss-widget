@@ -77,6 +77,9 @@ There are so many variables that are related to hosting servers and such that it
 
 == Changelog ==
 
+= 1.5 =
+* Updated to latest version of timthumb.php
+
 = 1.4 =
 * Added the capability to show pins from a specific board
 
