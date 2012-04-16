@@ -18,7 +18,7 @@ Starting with plugin version 1.3, you can also add a list of thumbnails of your 
 
 Version 1.4 adds the capability of showing pins from a specific board in the widget or shortcode, rather than just all of the latest pins from a specific user. (See FAQs for instructions).
 
-Note: This plugin is heavily based on the Image Feed Widget plugin created by Yorik van Havre (http://wordpress.org/extend/plugins/image-feed-widget/). It also utilizes the timthumb PHP script for image resizing (http://code.google.com/p/timthumb/)
+Note: This plugin is heavily based on the Image Feed Widget plugin created by Yorik van Havre (http://wordpress.org/extend/plugins/image-feed-widget/). As of version 2.0 it also utilizes the jQuery NailThumb script for image resizing (http://www.garralab.com/nailthumb.php) and no longer utilizes the timthumb.php script.
 
 == Installation ==
 
@@ -61,14 +61,6 @@ Example:
 
 `<?php get_pins_feed_list('bkmacdaddy', 'design-inspiration', 10, 'myList', 1, 'newwindow', 'yes', 125, 125, 'large'); ?>` 
 
-= The images are not showing. What went wrong? =
-
-There are so many variables that are related to hosting servers and such that it's impossible to provide all of the possible answers. However, images not showing is most likely a problem with the timthumb image resizing script. Here are some possible solutions:
-
-* TimThumb requires the GD library, which is available on any host sever with PHP 4.3+ installed. Make sure your host has this installed (most do).
-* Once installed and in-use, TimThumb will automatically create a /prw_tmp/ subfolder in your/ wp-content/uploads/ directory with proper write-permissions. If your host server doesn't allow this by default, be sure to manually create the /prw_tmp/ subfolder in your/ wp-content/uploads/ directory and set the /prw_tmp/ folder permissions to 755. If this still doesn't work, try setting the /cache/ folder permissions to 777.
-* Known issue with timthumb.php on **Hostgator**: If your website is hosted on Hostgator, you may need to contact HostGator to request "mod_security whitelisting". More info here: http://support.hostgator.com/articles/specialized-help/technical/timthumb-basics
-
 == Screenshots ==
 
 1. The widget settings
@@ -76,6 +68,9 @@ There are so many variables that are related to hosting servers and such that it
 3. Choose one of four buttons (or none) to display beneath the list of Pins
 
 == Changelog ==
+
+= 2.0 =
+* Removed timthumb.php and replaced jQuery NailThumb for image resizing
 
 = 1.5 =
 * Updated to latest version of timthumb.php

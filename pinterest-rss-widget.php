@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 1.5
+Version: 2.0
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -30,11 +30,19 @@ Author URI: http://bkmacdaddy.com/
 add_action('wp_enqueue_scripts', 'add_pinterest_rss_css');
 
 function add_pinterest_rss_css() {
+
 	$pinterest_rss_myStyleUrl = plugins_url('style.css', __FILE__); // Respects SSL, Style.css is relative to the current file
-	$pinterest_rss_myStyleFile = WP_PLUGIN_DIR . '/pinterest-rss-widget/style.css';
+	$pinterest_rss_myStyleFile = WP_PLUGIN_DIR . '/pinterest-rss-widget/style.css';	
+	$pinterest_rss_nailThumb = plugins_url('jquery.nailthumb.1.0.min.js', __FILE__);
+
 	if ( file_exists($pinterest_rss_myStyleFile) ) {
 		wp_register_style('pinterestRSScss', $pinterest_rss_myStyleUrl);
-		wp_enqueue_style( 'pinterestRSScss');
+		wp_enqueue_style( 'pinterestRSScss');		
+		wp_deregister_script( 'jquery' );
+    	wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
+		wp_enqueue_script( 'jquery' );		
+		wp_register_script( 'pinterestRSSjs', $pinterest_rss_nailThumb);    	
+		wp_enqueue_script( 'pinterestRSSjs' );
 	}
 }
 
@@ -66,23 +74,22 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
 					$content .= '<div class="pins-feed-'.$divname.'">';
 					$content .= '<a href="'.$item->get_permalink().'"';
 					if ($target == 'newwindow') { $content .= 'target="_BLANK" '; };
-					$content .= 'title="'.$item->get_title().' - Pinned on '.$item->get_date('M d, Y').'">'; 
-					
-									$pinterest_timthumbUrl = plugins_url('timthumb.php', __FILE__);
+					$content .= 'title="'.$item->get_title().' - Pinned on '.$item->get_date('M d, Y').'">'; 					
+									
 									if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
 										$thumb = $thumb[0]['attribs']['']['url'];
-										$content .= '<img src="'.$pinterest_timthumbUrl.'?src='.$thumb.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+										$content .= '<img src="'.$thumb.'"'; 
 										$content .= ' alt="'.$item->get_title().'"/>';
 									 } else if ( $useenclosures == 'yes' && $enclosure = $item->get_enclosure() ) {
 										$enclosure = $item->get_enclosures();
-										$content .= '<img src="'.$pinterest_timthumbUrl.'?src='.$enclosure[0]->get_link().'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+										$content .= '<img src="'.$enclosure[0]->get_link().'"'; 
 										$content .= ' alt="'.$item->get_title().'"/>';
 									}  else {
 										preg_match('/src="([^"]*)"/', $item->get_content(), $matches);
 										$src = $matches[1];
 										
 										if ($matches) {
-										  $content .= '<img src="'.$pinterest_timthumbUrl.'?src='.$src.'&a=t&w='.$thumbwidth.'&h='.$thumbheight.'"'; 
+										  $content .= '<img src="'.$src.'"'; 
 										$content .= ' alt="'.$item->get_title().'"/>';
 										} else {
 										  $content .= "thumbnail not available";
@@ -98,7 +105,11 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
 					$content .= '</li>';
 				  endforeach;
 				  $content .= '<div class="pinsClear"></div>';
-				$content .= '</ul>'; 
+				$content .= '</ul>';
+				$content .= '<script type="text/javascript">';
+				$content .= 'jQuery(document).ready(function() {';
+				$content .= "jQuery('.pins-feed-item img').nailthumb({width:".$thumbwidth.",height:".$thumbheight."})";
+				$content .= '}); </script>'; 
 					$pinterest_followButton = plugins_url('follow-on-pinterest-button.png', __FILE__);
 					if ($showfollow == 'large') { 
 						$content .= '<a href="http://pinterest.com/'. $username .'/" id="pins-feed-follow" target="_blank" class="followLarge" title="Follow Me on Pinterest">';
