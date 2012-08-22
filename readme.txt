@@ -69,6 +69,9 @@ Example:
 
 == Changelog ==
 
+= 2.01 =
+* Added timeout for RSS feed retrieval to avoid Call to undefined method WP_Error::get_item_quantity() 
+
 = 2.0 =
 * Removed timthumb.php and replaced jQuery NailThumb for image resizing
 
