@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 2.01
+Version: 2.1
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -59,7 +59,7 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
                 // Get a SimplePie feed object from the Pinterest feed source
                 $rss = fetch_feed($pinsfeed);
 				$rss->set_timeout(60);
-
+				
                 // Figure out how many total items there are.               
 				$maxitems = $rss->get_item_quantity((int)$maxfeeds);
 
@@ -79,10 +79,6 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
 									if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
 										$thumb = $thumb[0]['attribs']['']['url'];											
 										$content .= '<img src="'.$thumb.'"'; 
-										$content .= ' alt="'.$item->get_title().'"/>';
-									 } else if ( $useenclosures == 'yes' && $enclosure = $item->get_enclosure() ) {
-										$enclosure = $item->get_enclosures();
-										$content .= '<img src="'.$enclosure[0]->get_link().'"'; 
 										$content .= ' alt="'.$item->get_title().'"/>';
 									}  else {
 										preg_match('/src="([^"]*)"/', $item->get_content(), $matches);
