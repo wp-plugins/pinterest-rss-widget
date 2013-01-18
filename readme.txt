@@ -69,6 +69,9 @@ Example:
 
 == Changelog ==
 
+= 2.2.1 =
+* Fixed problem with wrong version in repository 
+
 = 2.2 =
 * Fixed code to work with latest version of WordPress (3.5) 
 
