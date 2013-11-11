@@ -69,6 +69,13 @@ Example:
 
 == Changelog ==
 
+= 2.2.3 =
+* Removed extraneous line left in accidentally in 2.2.2
+
+= 2.2.2 =
+* Removed problematic deregistering of WordPress jQuery
+* Plugin now uses built-in WordPress jQuery
+
 = 2.2.1 =
 * Fixed problem with wrong version in repository 
 
