@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 2.2.1
+Version: 2.2.4
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -37,12 +37,12 @@ function add_pinterest_rss_css() {
 
 	if ( file_exists($pinterest_rss_myStyleFile) ) {
 		wp_register_style('pinterestRSScss', $pinterest_rss_myStyleUrl);
-		wp_enqueue_style( 'pinterestRSScss');		
-		wp_deregister_script( 'jquery' );
-    	wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
-		wp_enqueue_script( 'jquery' );		
-		wp_register_script( 'pinterestRSSjs', $pinterest_rss_nailThumb);    	
-		wp_enqueue_script( 'pinterestRSSjs' );
+		wp_enqueue_style( 'pinterestRSScss');    	
+		wp_enqueue_script( 
+			'pinterestRSSjs',
+			 $pinterest_rss_nailThumb,
+			 array( 'jquery' )
+		);
 	}
 }
 
@@ -58,6 +58,7 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
 
                 // Get a SimplePie feed object from the Pinterest feed source
                 $rss = fetch_feed($pinsfeed);
+				if($rss instanceof WP_Error) return '';
 				$rss->set_timeout(60);
 				
                 // Figure out how many total items there are.               
@@ -73,7 +74,7 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
 					$content .= '<li class="pins-feed-item" style="width:'. $thumbwidth .'px;">';
 					$content .= '<div class="pins-feed-'.$divname.'">';
 					$content .= '<a href="'.$item->get_permalink().'"';
-					if ($target == 'newwindow') { $content .= 'target="_BLANK" '; };
+					if ($target == 'newwindow') { $content .= ' target="_BLANK" '; };
 					$content .= 'title="'.$item->get_title().' - Pinned on '.$item->get_date('M d, Y').'">'; 					
 									
 									if ($thumb = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS, 'thumbnail') ) {
