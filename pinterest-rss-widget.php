@@ -37,8 +37,7 @@ function add_pinterest_rss_css() {
 
 	if ( file_exists($pinterest_rss_myStyleFile) ) {
 		wp_register_style('pinterestRSScss', $pinterest_rss_myStyleUrl);
-		wp_enqueue_style( 'pinterestRSScss');			
-		wp_register_script( 'pinterestRSSjs', $pinterest_rss_nailThumb);    	
+		wp_enqueue_style( 'pinterestRSScss');    	
 		wp_enqueue_script( 
 			'pinterestRSSjs',
 			 $pinterest_rss_nailThumb,
