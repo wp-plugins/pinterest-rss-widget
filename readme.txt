@@ -69,6 +69,9 @@ Example:
 
 == Changelog ==
 
+= 2.2.4 =
+* Added fix for "Call to undefined method WP_Error::set_timeout()"
+
 = 2.2.3 =
 * Removed extraneous line left in accidentally in 2.2.2
 
