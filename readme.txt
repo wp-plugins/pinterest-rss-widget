@@ -69,6 +69,9 @@ Example:
 
 == Changelog ==
 
+= 2.2.6 =
+* Added fix for Google Chrome height resizing conflict
+
 = 2.2.5 =
 * Fixed issue with new Pinterest https URL
 
