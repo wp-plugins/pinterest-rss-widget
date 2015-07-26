@@ -4,7 +4,7 @@ Plugin Name: Pinterest RSS Widget
 Plugin URI: http://www.bkmacdaddy.com/pinterest-rss-widget-a-wordpress-plugin-to-display-your-latest-pins/
 Description: Display up to 25 of your latest Pinterest Pins in your sidebar. You are welcome to express your gratitude for this plugin by donating via <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SXTEL7YLUSFFC" target="_blank"><strong>PayPal</strong></a>
 Author: bkmacdaddy designs
-Version: 2.2.6
+Version: 2.3
 Author URI: http://bkmacdaddy.com/
 
 /* License
@@ -54,7 +54,7 @@ function get_pins_feed_list($username, $boardname, $maxfeeds=25, $divname='stand
 				if( empty($boardname) ){
 					$pinsfeed = 'https://pinterest.com/'.$username.'/feed.rss';
 				}
-				else $pinsfeed = 'https://pinterest.com/'.$username.'/'.$boardname.'/rss';
+				else $pinsfeed = 'https://pinterest.com/'.$username.'/'.$boardname.'.rss';
 
                 // Get a SimplePie feed object from the Pinterest feed source
                 $rss = fetch_feed($pinsfeed);
